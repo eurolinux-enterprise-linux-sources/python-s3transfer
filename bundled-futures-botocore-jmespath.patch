@@ -1,0 +1,112 @@
+diff -uNr a/bundled/botocore/botocore/paginate.py b/bundled/botocore/botocore/paginate.py
+--- a/bundled/botocore/botocore/paginate.py	2018-01-26 00:00:58.000000000 +0100
++++ b/bundled/botocore/botocore/paginate.py	2018-02-12 15:17:06.811746874 +0100
+@@ -15,6 +15,8 @@
+ 
+ from botocore.compat import six
+ 
++import sys
++sys.path.insert(0, '/usr/lib/fence-agents/bundled')
+ import jmespath
+ import json
+ import base64
+diff -uNr a/bundled/botocore/botocore/waiter.py b/bundled/botocore/botocore/waiter.py
+--- a/bundled/botocore/botocore/waiter.py	2018-01-26 00:00:58.000000000 +0100
++++ b/bundled/botocore/botocore/waiter.py	2018-02-12 15:17:23.455515958 +0100
+@@ -10,6 +10,8 @@
+ # distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ # ANY KIND, either express or implied. See the License for the specific
+ # language governing permissions and limitations under the License.
++import sys
++sys.path.insert(0, '/usr/lib/fence-agents/bundled')
+ import jmespath
+ import logging
+ import time
+diff -uNr a/s3transfer/compat.py b/s3transfer/compat.py
+--- a/s3transfer/compat.py	2016-12-16 00:54:07.000000000 +0100
++++ b/s3transfer/compat.py	2018-02-12 15:15:17.126268646 +0100
+@@ -16,6 +16,7 @@
+ import errno
+ import socket
+ 
++sys.path.insert(0, '/usr/lib/fence-agents/bundled')
+ from botocore.compat import six
+ 
+ 
+diff -uNr a/s3transfer/download.py b/s3transfer/download.py
+--- a/s3transfer/download.py	2016-12-16 00:54:07.000000000 +0100
++++ b/s3transfer/download.py	2018-02-12 15:15:17.127268632 +0100
+@@ -18,6 +18,8 @@
+ import heapq
+ 
+ 
++import sys
++sys.path.insert(0, '/usr/lib/fence-agents/bundled')
+ from botocore.compat import six
+ from botocore.exceptions import IncompleteReadError
+ from botocore.vendored.requests.packages.urllib3.exceptions import \
+diff -uNr a/s3transfer/exceptions.py b/s3transfer/exceptions.py
+--- a/s3transfer/exceptions.py	2016-12-16 00:54:07.000000000 +0100
++++ b/s3transfer/exceptions.py	2018-02-12 15:15:17.128268618 +0100
+@@ -10,6 +10,8 @@
+ # distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ # ANY KIND, either express or implied. See the License for the specific
+ # language governing permissions and limitations under the License.
++import sys
++sys.path.insert(0, '/usr/lib/fence-agents/bundled')
+ from concurrent.futures import CancelledError
+ 
+ 
+diff -uNr a/s3transfer/futures.py b/s3transfer/futures.py
+--- a/s3transfer/futures.py	2016-12-16 00:54:07.000000000 +0100
++++ b/s3transfer/futures.py	2018-02-12 15:15:17.128268618 +0100
+@@ -10,11 +10,12 @@
+ # distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ # ANY KIND, either express or implied. See the License for the specific
+ # language governing permissions and limitations under the License.
++import sys
++sys.path.insert(0, '/usr/lib/fence-agents/bundled')
+ from concurrent import futures
+ from collections import namedtuple
+ import copy
+ import logging
+-import sys
+ import threading
+ 
+ from s3transfer.compat import MAXINT
+diff -uNr a/s3transfer/__init__.py b/s3transfer/__init__.py
+--- a/s3transfer/__init__.py	2016-12-16 00:54:07.000000000 +0100
++++ b/s3transfer/__init__.py	2018-02-12 15:15:17.128268618 +0100
+@@ -131,6 +131,8 @@
+ import threading
+ import random
+ import string
++import sys
++sys.path.insert(0, '/usr/lib/fence-agents/bundled')
+ import concurrent.futures
+ 
+ from botocore.compat import six
+diff -uNr a/s3transfer/subscribers.py b/s3transfer/subscribers.py
+--- a/s3transfer/subscribers.py	2016-12-16 00:54:07.000000000 +0100
++++ b/s3transfer/subscribers.py	2018-02-12 15:15:17.129268604 +0100
+@@ -10,6 +10,8 @@
+ # distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ # ANY KIND, either express or implied. See the License for the specific
+ # language governing permissions and limitations under the License.
++import sys
++sys.path.insert(0, '/usr/lib/fence-agents/bundled')
+ from botocore.compat import six
+ 
+ from s3transfer.compat import accepts_kwargs
+diff -uNr a/s3transfer/upload.py b/s3transfer/upload.py
+--- a/s3transfer/upload.py	2016-12-16 00:54:07.000000000 +0100
++++ b/s3transfer/upload.py	2018-02-12 15:15:17.129268604 +0100
+@@ -12,6 +12,8 @@
+ # language governing permissions and limitations under the License.
+ import math
+ 
++import sys
++sys.path.insert(0, '/usr/lib/fence-agents/bundled')
+ from botocore.compat import six
+ 
+ from s3transfer.compat import seekable, readable
