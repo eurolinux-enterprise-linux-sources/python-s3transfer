@@ -21,8 +21,8 @@
 %global jmespath_dir       %{bundled_lib_dir}/jmespath
 
 Name:           python-%{pypi_name}
-Version:        0.1.10
-Release:        8%{?dist}
+Version:        0.1.13
+Release:        1%{?dist}
 Summary:        An Amazon S3 Transfer Manager
 
 License:        ASL 2.0
@@ -38,6 +38,7 @@ BuildArch:      noarch
 
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
+Obsoletes:      python2-%{pypi_name}
 %if %{with tests}
 BuildRequires:  python-nose
 BuildRequires:  python-mock
@@ -197,6 +198,13 @@ nosetests-%{python3_version} --with-coverage --cover-erase --cover-package s3tra
 %endif # python3
 
 %changelog
+* Thu May 24 2018 Oyvind Albrigtsen <oalbrigt@redhat.com> - 0.1.13-1
+- Fix "python2-s3transfer" from EPEL issue by adding it to Obsoletes
+- Rebase to v0.1.13 to fix missing "max_bandwidth" issue
+
+  Resolves: rhbz#1576985
+  Resolves: rhbz#1578083
+
 * Mon Feb 12 2018 Oyvind Albrigtsen <oalbrigt@redhat.com> - 0.1.10-8
 - Bundle python-futures, python-botocore and python-jmespath
 

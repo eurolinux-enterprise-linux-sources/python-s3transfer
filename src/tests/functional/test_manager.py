@@ -10,6 +10,7 @@
 # distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
+from io import RawIOBase
 from botocore.awsrequest import create_request_object
 import mock
 
@@ -26,17 +27,27 @@ class ArbitraryException(Exception):
     pass
 
 
-class CallbackEnablingBody(object):
-    """A mocked body with callback enabling/disabling"""
+class SignalTransferringBody(RawIOBase):
+    """A mocked body with the ability to signal when transfers occur"""
     def __init__(self):
-        self.enable_callback_call_count = 0
-        self.disable_callback_call_count = 0
+        super(SignalTransferringBody, self).__init__()
+        self.signal_transferring_call_count = 0
+        self.signal_not_transferring_call_count = 0
 
-    def enable_callback(self):
-        self.enable_callback_call_count += 1
+    def signal_transferring(self):
+        self.signal_transferring_call_count += 1
 
-    def disable_callback(self):
-        self.disable_callback_call_count += 1
+    def signal_not_transferring(self):
+        self.signal_not_transferring_call_count += 1
+
+    def seek(self, where):
+        pass
+
+    def tell(self):
+        return 0
+
+    def read(self, amount=0):
+        return b''
 
 
 class TestTransferManager(StubbedClientTest):
@@ -117,7 +128,7 @@ class TestTransferManager(StubbedClientTest):
                     future.result()
 
     def test_enable_disable_callbacks_only_ever_registered_once(self):
-        body = CallbackEnablingBody()
+        body = SignalTransferringBody()
         request = create_request_object({
             'method': 'PUT',
             'url': 'https://s3.amazonaws.com',
@@ -134,10 +145,10 @@ class TestTransferManager(StubbedClientTest):
         # handlers registered once depite being used for two different
         # TransferManagers.
         self.assertEqual(
-            body.enable_callback_call_count, 1,
+            body.signal_transferring_call_count, 1,
             'The enable_callback() should have only ever been registered once')
         self.assertEqual(
-            body.disable_callback_call_count, 1,
+            body.signal_not_transferring_call_count, 1,
             'The disable_callback() should have only ever been registered '
             'once')
 
@@ -147,3 +158,8 @@ class TestTransferManager(StubbedClientTest):
             self.client, executor_cls=mocked_executor_cls)
         transfer_manager.delete('bucket', 'key')
         self.assertTrue(mocked_executor_cls.return_value.submit.called)
+
+    def test_unicode_exception_in_context_manager(self):
+        with self.assertRaises(ArbitraryException):
+            with TransferManager(self.client):
+                raise ArbitraryException(u'\u2713')
